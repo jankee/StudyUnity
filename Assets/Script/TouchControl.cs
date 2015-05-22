@@ -9,8 +9,12 @@ public class TouchControl : MonoBehaviour {
     //이동 지점
     public Transform MovePoint;
 
+    GameObject findHero;
+
     //이동 방향
     Vector3 moveDirection;
+
+    LayerMask layer;
 
     //마지막 입력 입력 위치
     Vector3 lastInputPosition;
@@ -19,6 +23,7 @@ public class TouchControl : MonoBehaviour {
 
     Vector2 tempVector2;
 
+
 	// Use this for initialization
 	void Awake () 
     {
@@ -26,20 +31,26 @@ public class TouchControl : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
-	void Start () 
-    {
-        
-            StartCoroutine(CheckMovePoint());
-	}
-
-    public IEnumerator CheckMovePoint()
+	void Update () 
     {
         if (Input.GetMouseButtonDown(0))
         {
+            findHero = GameObject.Find("hero");
             tempVector3 = MainCamera.ScreenToWorldPoint(Input.mousePosition);
             tempVector3.z = 0;
         }
-        print(tempVector3);
-        yield return tempVector3;
-    }
+	}
+
+    //void OnDrawGizmos()
+    //{
+
+    //    Gizmos.color = Color.red;
+    //    Gizmos.DrawLine(findHero.transform.position, tempVector3);
+    //}
+
+    //public IEnumerator CheckMovePoint()
+    //{
+    //    print(tempVector3);
+    //    yield return;
+    //}
 }
