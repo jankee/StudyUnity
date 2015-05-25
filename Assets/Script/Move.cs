@@ -6,11 +6,16 @@ public class Move : MonoBehaviour
 
     RaycastHit hit;
 
-    Vector3 click;
+    Vector3 clickPosition;
+    Vector3 clickRotation;
 
-    float velocity = 3.0f;
+    float moveSpeed = 3.0f;
+    float tuneSpeed = 3.0f;
 
+    Quaternion dir;
     Vector3 thisPosition;
+    Vector3 thisRotation;
+    
 
 	// Use this for initialization
 	void Start () 
@@ -24,13 +29,17 @@ public class Move : MonoBehaviour
         if (Input.GetMouseButton(0))
         {
             Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit);
-            click = hit.point;
-            click.y = 0;
+            clickPosition = hit.point;
+            clickPosition.y = 0;
+
+            clickRotation = hit.point;
 
             thisPosition = this.transform.position;
             thisPosition.y = 0;
 
-            if (click != thisPosition)
+            thisRotation = transform.position;
+            
+            if (clickPosition != thisPosition)
             {
                 print("HI");
                 StartCoroutine(MoveCharac());    
@@ -43,16 +52,24 @@ public class Move : MonoBehaviour
     void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawLine(click, this.transform.position);
+        Gizmos.DrawLine(clickPosition, this.transform.position);
     }
 
     public IEnumerator MoveCharac()
     {
-        print("click : " + click);
-        print("thisPosition : " + thisPosition);
-       
-        this.transform.Translate((click - thisPosition).normalized * Time.deltaTime * velocity);    
+        print("clickPosition : " + clickRotation);
+        print("thisRotation : " + thisRotation);
+
+        dir = Quaternion.LookRotation((clickRotation - thisRotation).normalized);
+        dir.x = 0;
+        dir.z = 0;
+
+        this.transform.Translate((clickPosition - thisPosition).normalized * Time.deltaTime * moveSpeed);
+        this.transform.rotation = Quaternion.Slerp(transform.rotation, dir, tuneSpeed * Time.deltaTime);
+        
 
         yield return null;
     }
+
+
 }
