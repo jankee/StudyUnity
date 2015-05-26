@@ -1,6 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+public enum PlayerState
+{
+    Idle,
+    Move,
+    Attack,
+}
+
 public class Move : MonoBehaviour 
 {
 
@@ -14,13 +21,14 @@ public class Move : MonoBehaviour
 
     Quaternion dir;
     Vector3 thisPosition;
-    Vector3 thisRotation;
-    
+    //Vector3 thisRotation;
+
+    public PlayerState playerState;
 
 	// Use this for initialization
 	void Start () 
     {
-	
+        playerState = PlayerState.Idle;
 	}
 	
 	// Update is called once per frame
@@ -37,15 +45,7 @@ public class Move : MonoBehaviour
             thisPosition = this.transform.position;
             thisPosition.y = 0;
 
-            thisRotation = transform.position;
-            
-            if (clickPosition != thisPosition)
-            {
-                print("HI");
-                StartCoroutine(MoveCharac());    
-            }
-            
-
+            StartCoroutine(MoveCharac());
         }
 	}
 
@@ -55,12 +55,14 @@ public class Move : MonoBehaviour
         Gizmos.DrawLine(clickPosition, this.transform.position);
     }
 
+
+
     public IEnumerator MoveCharac()
     {
         print("clickPosition : " + clickRotation);
-        print("thisRotation : " + thisRotation);
+        print("thisRotation : " + thisPosition);
 
-        dir = Quaternion.LookRotation((clickRotation - thisRotation).normalized);
+        dir = Quaternion.LookRotation((clickRotation - thisPosition).normalized);
         dir.x = 0;
         dir.z = 0;
 
