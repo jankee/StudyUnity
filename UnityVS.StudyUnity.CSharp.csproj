@@ -69,15 +69,18 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Script\CameraFollow.cs" />
+    <Compile Include="Assets\Script\CastingBar.cs" />
     <Compile Include="Assets\Script\Character.cs" />
     <Compile Include="Assets\Script\Crate.cs" />
     <Compile Include="Assets\Script\GameManager.cs" />
+    <Compile Include="Assets\Script\Inventory.cs" />
     <Compile Include="Assets\Script\MapGenerator.cs" />
     <Compile Include="Assets\Script\MousePoint.cs" />
     <Compile Include="Assets\Script\Move.cs" />
     <Compile Include="Assets\Script\Player.cs" />
     <Compile Include="Assets\Script\PlayerController.cs" />
     <Compile Include="Assets\Script\SmoothCameraFollow.cs" />
+    <Compile Include="Assets\Script\Spell.cs" />
     <Compile Include="Assets\Script\TouchControl.cs" />
   </ItemGroup>
   <ItemGroup>

@@ -45,5 +45,15 @@ public class Inventory : MonoBehaviour
 
         inventoryRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, inventoryWidth);
         inventoryRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, inventoryHight);
+
+        int colums = slots / rows;
+
+        for (int y = 0; y < rows; y++)
+        {
+            for (int x = 0; x < colums; x++)
+            {
+                
+            }
+        }
     }
 }
