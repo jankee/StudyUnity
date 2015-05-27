@@ -59,8 +59,8 @@ public class Move : MonoBehaviour
 
     public IEnumerator MoveCharac()
     {
-        print("clickPosition : " + clickRotation);
-        print("thisRotation : " + thisPosition);
+        //print("clickPosition : " + clickRotation);
+        //print("thisRotation : " + thisPosition);
 
         dir = Quaternion.LookRotation((clickRotation - thisPosition).normalized);
         dir.x = 0;

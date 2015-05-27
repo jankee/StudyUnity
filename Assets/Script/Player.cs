@@ -17,10 +17,22 @@ public class Player : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        health--;
-        print("Health : " + health);
-        other.GetComponent<Renderer>().material.color = Color.red;
+        if (other.tag == "Enemy")
+        {
+            health--;
+            print("Health : " + health);
+            other.GetComponent<Renderer>().material.color = Color.red;    
+        }
+        
     }
 
-
+    void OnTriggerExit(Collider other)
+    {
+        if (other.tag == "Enemy")
+        {
+            health--;
+            print("Health : " + health);
+            other.GetComponent<Renderer>().material.color = Color.blue;
+        }
+    }
 }
