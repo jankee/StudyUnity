@@ -3,17 +3,31 @@ using System.Collections;
 
 public class Player : MonoBehaviour 
 {
+    public float speed;
+
+    public Inventory inventory;
+
     private int health = 100;
 
 	// Use this for initialization
-	void Start () {
+	void Start () 
+    {
 	
 	}
 	
 	// Update is called once per frame
-	void Update () {
-	
+	void Update () 
+    {
+        HandleMovement();
 	}
+
+    void HandleMovement()
+    {
+        float translation = speed * Time.deltaTime;
+
+        transform.Translate(new Vector3
+            (Input.GetAxis("Horizontal") * translation, 0, Input.GetAxis("Vertical") * translation));
+    }
 
     void OnTriggerEnter(Collider other)
     {
@@ -22,6 +36,12 @@ public class Player : MonoBehaviour
             health--;
             print("Health : " + health);
             other.GetComponent<Renderer>().material.color = Color.red;    
+        }
+
+        if (other.tag == "Item")
+        {
+            print("Item : " + other.name);
+            inventory.AddItem(other.GetComponent<Item>());
         }
         
     }
