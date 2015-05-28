@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class Inventory : MonoBehaviour 
 {
@@ -19,7 +20,15 @@ public class Inventory : MonoBehaviour
 
     private List<GameObject> allSlots;
 
-    private int emptySlot;
+    private static int emptySlot;
+
+    public Slot from, to;
+
+    public static int EmptySlot
+    {
+        get { return emptySlot; }
+        set { emptySlot = value; }
+    }
 
 
 	// Use this for initialization
@@ -94,7 +103,7 @@ public class Inventory : MonoBehaviour
                     if (tmp.CurrentItem.type == item.type && tmp.IsAvailable)
                     {
                         tmp.AddItem(item);
-                        //emptySlot--;
+                        emptySlot--;
                         return true;
                     }
                 }
@@ -124,5 +133,37 @@ public class Inventory : MonoBehaviour
             }
         }
         return false;
+    }
+
+    public void MoveItem(GameObject clicked)
+    {
+        if (from == null)
+        {
+            if (!clicked.GetComponent<Slot>().IsEmpty)
+            {
+                from = clicked.GetComponent<Slot>();
+                from.GetComponent<Image>().color = Color.gray;
+            }
+            else if (to == null)
+            {
+                to = clicked.GetComponent<Slot>();
+            }
+            if (to != null && from != null)
+            {
+                Stack<Item> tmpTo = new Stack<Item>(to.Items);
+                to.AddItems(from.Items);
+
+                if (tmpTo.Count == 0)
+                {
+                    from.ClearSlot();
+                }
+                else
+                {
+                    from.AddItems(tmpTo);
+                }
+
+                from.GetComponent<Image>().color = Color.white;
+            }
+        }
     }
 }

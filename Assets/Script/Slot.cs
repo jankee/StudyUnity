@@ -2,10 +2,17 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
-public class Slot : MonoBehaviour 
+public class Slot : MonoBehaviour, IPointerClickHandler
 {
     private Stack<Item> items;
+
+    public Stack<Item> Items
+    {
+        get { return items; }
+        set { items = value; }
+    }
 
     public Text stackTxt;
 
@@ -52,12 +59,6 @@ public class Slot : MonoBehaviour
         txtRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, slotRect.sizeDelta.x);
         txtRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, slotRect.sizeDelta.y);
 	}
-	
-	// Update is called once per frame
-	void Update () 
-    {
-	
-	}
 
     public void AddItem(Item item)
     {
@@ -72,6 +73,15 @@ public class Slot : MonoBehaviour
         ChageSprite(item.spriteNeutral, item.spriteHighlighted);
     }
 
+    public void AddItems(Stack<Item> items)
+    {
+        this.items = new Stack<Item>(items);
+
+        stackTxt.text = items.Count > 1 ? items.Count.ToString() : string.Empty;
+
+        ChageSprite(CurrentItem.spriteNeutral, CurrentItem.spriteHighlighted);
+    }
+
     void ChageSprite(Sprite neutral, Sprite highlight)
     {
         this.GetComponent<Image>().sprite = neutral;
@@ -81,5 +91,37 @@ public class Slot : MonoBehaviour
         st.pressedSprite = neutral;
 
         this.GetComponent<Button>().spriteState = st;
+    }
+
+    void UseItem()
+    {
+        if (!IsEmpty)
+        {
+            items.Pop().Use();
+
+            stackTxt.text = items.Count > 1 ? items.Count.ToString() : string.Empty;
+
+            if (IsEmpty)
+            {
+                ChageSprite(slotEmpty, slotHighlight);
+                Inventory.EmptySlot--;
+            }
+        }
+    }
+
+    public void ClearSlot()
+    {
+        items.Clear();
+        ChageSprite(slotEmpty, slotHighlight);
+        stackTxt.text = string.Empty;
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        if (eventData.button == PointerEventData.InputButton.Right)
+        {
+            print("Use Item");
+            UseItem();
+        }
     }
 }
