@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 public class Inventory : MonoBehaviour 
 {
@@ -18,11 +19,23 @@ public class Inventory : MonoBehaviour
 
     public GameObject slotPrefab;
 
+    public GameObject iconPrefab;
+
+    public Canvas canvas;
+
+    public EventSystem eventSystem;
+
+    private static GameObject hoverObject;
+
     private List<GameObject> allSlots;
 
     private static int emptySlot;
 
-    public Slot from, to;
+    private static Slot from, to;
+
+    private float hoverYOffset;
+
+    
 
     public static int EmptySlot
     {
@@ -40,19 +53,43 @@ public class Inventory : MonoBehaviour
 	// Update is called once per frame
 	void Update () 
     {
-	
+        if (Input.GetMouseButtonUp(0))
+        {
+            if (!eventSystem.IsPointerOverGameObject(-1) && from != null)
+            {
+                from.GetComponent<Image>().color = Color.white;
+                from.ClearSlot();
+                Destroy(GameObject.Find("Hover"));
+                to = null;
+                from = null;
+                hoverObject = null;
+            }
+        }
+
+        if (hoverObject != null)
+        {
+            Vector2 position;
+
+            RectTransformUtility.ScreenPointToLocalPointInRectangle
+                (canvas.transform as RectTransform, Input.mousePosition, canvas.worldCamera, out position);
+
+            position.Set(position.x, position.y - hoverYOffset);
+
+            hoverObject.transform.position = canvas.transform.TransformPoint(position);
+        }
 	}
 
     private void CreateLayout()
     {
         allSlots = new List<GameObject>();
 
+        hoverYOffset = slotSize * 0.01f;
+
         emptySlot = slots;
 
         inventoryWidth = (slots / rows) * (slotSize + slotPadingLeft) + slotPadingLeft;
         inventoryHight = rows * (slotSize + slotPadingTop) + slotPadingTop;
         print(slotSize + slotPadingLeft);
-        print("inventoryWidth" + inventoryWidth);
 
         inventoryRect = GetComponent<RectTransform>();
 
@@ -69,7 +106,7 @@ public class Inventory : MonoBehaviour
 
                 RectTransform slotRect = newSlot.GetComponent<RectTransform>();
 
-                newSlot.name = "Slot" + y + x;
+                newSlot.name = "Slot";
 
                 newSlot.transform.SetParent(this.transform.parent);
 
@@ -139,15 +176,35 @@ public class Inventory : MonoBehaviour
     {
         if (from == null)
         {
+            
+
             if (!clicked.GetComponent<Slot>().IsEmpty)
             {
+                print("MoveItem");
+
                 from = clicked.GetComponent<Slot>();
                 from.GetComponent<Image>().color = Color.gray;
+
+                hoverObject = (GameObject)Instantiate(iconPrefab);
+                hoverObject.GetComponent<Image>().sprite = clicked.GetComponent<Image>().sprite;
+                hoverObject.name = "Hover";
+
+                RectTransform hoverTransform = hoverObject.GetComponent<RectTransform>();
+                RectTransform clickedTransform = clicked.GetComponent<RectTransform>();
+
+                hoverTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, clickedTransform.sizeDelta.x);
+                hoverTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, clickedTransform.sizeDelta.y);
+
+                hoverObject.transform.SetParent(GameObject.Find("Canvas").transform, true);
+                hoverObject.transform.localScale = from.gameObject.transform.localScale;
             }
+
             else if (to == null)
             {
                 to = clicked.GetComponent<Slot>();
+                Destroy(GameObject.Find("Hover"));
             }
+
             if (to != null && from != null)
             {
                 Stack<Item> tmpTo = new Stack<Item>(to.Items);
@@ -163,6 +220,10 @@ public class Inventory : MonoBehaviour
                 }
 
                 from.GetComponent<Image>().color = Color.white;
+
+                to = null;
+                from = null;
+                hoverObject = null;
             }
         }
     }
