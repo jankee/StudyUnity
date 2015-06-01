@@ -200,8 +200,6 @@ public class Inventory : MonoBehaviour
     {
         if (from == null)
         {
-            
-
             if (!clicked.GetComponent<Slot>().IsEmpty)
             {
                 print("MoveItem");
