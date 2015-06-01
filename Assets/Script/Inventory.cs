@@ -214,39 +214,43 @@ public class Inventory : MonoBehaviour
                 RectTransform hoverTransform = hoverObject.GetComponent<RectTransform>();
                 RectTransform clickedTransform = clicked.GetComponent<RectTransform>();
 
-                hoverTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, clickedTransform.sizeDelta.x);
-                hoverTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, clickedTransform.sizeDelta.y);
+                hoverTransform.SetSizeWithCurrentAnchors
+                    (RectTransform.Axis.Horizontal, clickedTransform.sizeDelta.x);
+                hoverTransform.SetSizeWithCurrentAnchors
+                    (RectTransform.Axis.Vertical, clickedTransform.sizeDelta.y);
 
                 hoverObject.transform.SetParent(GameObject.Find("Canvas").transform, true);
                 hoverObject.transform.localScale = from.gameObject.transform.localScale;
             }
+            
+        }
+        else if (to == null)
+        {
+            print("to");
+            to = clicked.GetComponent<Slot>();
+            Destroy(GameObject.Find("Hover"));
+        }
 
-            else if (to == null)
+        if (to != null && from != null)
+        {
+            print("to from");
+            Stack<Item> tmpTo = new Stack<Item>(to.Items);
+            to.AddItems(from.Items);
+
+            if (tmpTo.Count == 0)
             {
-                to = clicked.GetComponent<Slot>();
-                Destroy(GameObject.Find("Hover"));
+                from.ClearSlot();
+            }
+            else
+            {
+                from.AddItems(tmpTo);
             }
 
-            if (to != null && from != null)
-            {
-                Stack<Item> tmpTo = new Stack<Item>(to.Items);
-                to.AddItems(from.Items);
+            from.GetComponent<Image>().color = Color.white;
 
-                if (tmpTo.Count == 0)
-                {
-                    from.ClearSlot();
-                }
-                else
-                {
-                    from.AddItems(tmpTo);
-                }
-
-                from.GetComponent<Image>().color = Color.white;
-
-                to = null;
-                from = null;
-                hoverObject = null;
-            }
+            to = null;
+            from = null;
+            hoverObject = null;
         }
     }
 }

@@ -130,7 +130,6 @@ public class Slot : MonoBehaviour, IPointerClickHandler
     {
         if (eventData.button == PointerEventData.InputButton.Right)
         {
-            print("Use Item");
             UseItem();
         }
     }
