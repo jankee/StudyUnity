@@ -136,8 +136,8 @@ public class Inventory : MonoBehaviour
                     (slotPadingLeft * (x + 1) + (slotSize * x), -slotPadingLeft * (y + 1) - (slotSize * y));
 
                 //slotRect의 사이즐를 slotSize로 정한다.
-                slotRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, slotSize);
-                slotRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, slotSize);
+                slotRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, slotSize * canvas.scaleFactor);
+                slotRect.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, slotSize * canvas.scaleFactor);
 
                 allSlots.Add(newSlot);
             }
