@@ -41,7 +41,11 @@ public class Inventory : MonoBehaviour
 
     private float hoverYOffset;
 
-    
+    public CanvasGroup canvasgroup;
+
+    private bool fadingIn, fadingOut;
+
+    private float fadingTime;
 
     public static int EmptySlot
     {
@@ -252,5 +256,29 @@ public class Inventory : MonoBehaviour
             from = null;
             hoverObject = null;
         }
+    }
+
+    private IEnumerator FadeOut()
+    {
+        if (!fadingOut)
+        {
+            fadingOut = true;
+            fadingIn = false;
+
+            StopCoroutine("FadeIn");
+
+            float startAlpha = canvasgroup.alpha;
+
+            float rate = 1.0f / fadingTime;
+
+        }
+        
+    }
+
+    private IEnumerator FadeIn()
+    {
+        fadingOut = false;
+        fadingIn = true;
+
     }
 }
