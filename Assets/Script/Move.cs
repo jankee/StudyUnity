@@ -16,7 +16,7 @@ public class Move : MonoBehaviour
     Vector3 clickPosition;
     Vector3 clickRotation;
 
-    float moveSpeed = 3.0f;
+    float moveSpeed = .5f;
     float tuneSpeed = 3.0f;
 
     Quaternion dir;
@@ -38,14 +38,19 @@ public class Move : MonoBehaviour
         {
             Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit);
             clickPosition = hit.point;
-            clickPosition.y = 0;
 
             clickRotation = hit.point;
+
+
+            clickPosition = new Vector3((Mathf.Round(clickPosition.x * 100.0f)) / 100.0f, 0, (Mathf.Round(clickPosition.z * 100)) / 100.0f);
+
+            print("click : " + clickPosition.x);
 
             thisPosition = this.transform.position;
             thisPosition.y = 0;
 
             StartCoroutine(MoveCharac());
+
         }
 	}
 
@@ -62,15 +67,30 @@ public class Move : MonoBehaviour
         //print("clickPosition : " + clickRotation);
         //print("thisRotation : " + thisPosition);
 
-        dir = Quaternion.LookRotation((clickRotation - thisPosition).normalized);
-        dir.x = 0;
-        dir.z = 0;
+        //float speed = Time.deltaTime * moveSpeed;
+        int a = 0;
+        while (clickPosition != thisPosition)
+        {
+            this.transform.Translate((clickPosition - thisPosition).normalized * Time.deltaTime * moveSpeed);
+            thisPosition = transform.position;
+            thisPosition = new Vector3((Mathf.Round(thisPosition.x * 100.0f)) / 100.0f, 0, (Mathf.Round(thisPosition.z * 100.0f)) / 100.0f );
 
-        this.transform.Translate((clickPosition - thisPosition).normalized * Time.deltaTime * moveSpeed);
-        this.transform.rotation = Quaternion.Slerp(transform.rotation, dir, tuneSpeed * Time.deltaTime);
+            print("speed " + moveSpeed);
+            yield return null;
+        }
+
+        transform.position = clickPosition;
+
+        //dir = Quaternion.LookRotation((clickRotation - thisPosition).normalized);
+        //dir.x = 0;
+        //dir.z = 0;
+
+        print(thisPosition.x);
+        //this.transform.Translate((clickPosition - thisPosition).normalized * Time.deltaTime * moveSpeed);
+        //this.transform.rotation = Quaternion.Slerp(transform.rotation, dir, tuneSpeed * Time.deltaTime);
         
 
-        yield return null;
+       // yield return null;
     }
 
 

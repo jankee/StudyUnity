@@ -41,11 +41,16 @@ public class Inventory : MonoBehaviour
 
     private float hoverYOffset;
 
-    public CanvasGroup canvasgroup;
+    private static CanvasGroup canvasgroup;
+
+    public static CanvasGroup Canvasgroup
+    {
+        get { return Inventory.canvasgroup; }
+    }
 
     private bool fadingIn, fadingOut;
 
-    private float fadingTime;
+    public float fadingTime;
 
     public static int EmptySlot
     {
@@ -87,6 +92,18 @@ public class Inventory : MonoBehaviour
             position.Set(position.x, position.y - hoverYOffset);
 
             hoverObject.transform.position = canvas.transform.TransformPoint(position);
+        }
+
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            if (canvasgroup.alpha > 0)
+            {
+                StartCoroutine("FadeOut");
+            }
+            else
+            {
+                StartCoroutine("FadeIn");
+            }
         }
 	}
 
@@ -271,6 +288,19 @@ public class Inventory : MonoBehaviour
 
             float rate = 1.0f / fadingTime;
 
+            float progress = 0.0f;
+
+            while (progress > 0)
+            {
+                canvasgroup.alpha = Mathf.Lerp(startAlpha, 0, progress);
+
+                progress += rate * Time.deltaTime;
+
+                yield return null;
+            }
+
+            canvasgroup.alpha = 0;
+            fadingOut = false;
         }
         
     }
@@ -280,5 +310,24 @@ public class Inventory : MonoBehaviour
         fadingOut = false;
         fadingIn = true;
 
+        StopCoroutine("FadeOut");
+
+        float startAlpha = canvasgroup.alpha;
+
+        float rate = 1.0f / fadingTime;
+
+        float progress = 0.0f;
+
+        while (progress > 1)
+        {
+            canvasgroup.alpha = Mathf.Lerp(startAlpha, 1, progress);
+
+            progress += rate * Time.deltaTime;
+
+            yield return null;
+        }
+
+        canvasgroup.alpha = 1.0f;
+        fadingIn = false;
     }
 }
