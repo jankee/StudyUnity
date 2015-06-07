@@ -16,7 +16,7 @@ public class Move : MonoBehaviour
     Vector3 clickPosition;
     Vector3 clickRotation;
 
-    float moveSpeed = .5f;
+    float moveSpeed = 3f;
     float tuneSpeed = 3.0f;
 
     Quaternion dir;
@@ -49,7 +49,8 @@ public class Move : MonoBehaviour
             thisPosition = this.transform.position;
             thisPosition.y = 0;
 
-            StartCoroutine(MoveCharac());
+            StopCoroutine("MoveCharac");
+            StartCoroutine("MoveCharac");
 
         }
 	}
@@ -64,33 +65,21 @@ public class Move : MonoBehaviour
 
     public IEnumerator MoveCharac()
     {
-        //print("clickPosition : " + clickRotation);
-        //print("thisRotation : " + thisPosition);
 
-        //float speed = Time.deltaTime * moveSpeed;
-        int a = 0;
         while (clickPosition != thisPosition)
         {
             this.transform.Translate((clickPosition - thisPosition).normalized * Time.deltaTime * moveSpeed);
             thisPosition = transform.position;
             thisPosition = new Vector3((Mathf.Round(thisPosition.x * 100.0f)) / 100.0f, 0, (Mathf.Round(thisPosition.z * 100.0f)) / 100.0f );
 
-            print("speed " + moveSpeed);
+            print("speed " + thisPosition);
             yield return null;
         }
 
         transform.position = clickPosition;
 
-        //dir = Quaternion.LookRotation((clickRotation - thisPosition).normalized);
-        //dir.x = 0;
-        //dir.z = 0;
-
         print(thisPosition.x);
-        //this.transform.Translate((clickPosition - thisPosition).normalized * Time.deltaTime * moveSpeed);
-        //this.transform.rotation = Quaternion.Slerp(transform.rotation, dir, tuneSpeed * Time.deltaTime);
-        
 
-       // yield return null;
     }
 
 

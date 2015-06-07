@@ -58,10 +58,24 @@ public class Inventory : MonoBehaviour
         set { emptySlot = value; }
     }
 
+    public GameObject toolTipObject;
+    private static GameObject toolTip;
+
+    public Text sizeTextObject;
+    private static Text sizeText;
+
+    public Text visualTextObjct;
+    private static Text visualText;
 
 	// Use this for initialization
 	void Start () 
     {
+        toolTip = toolTipObject;
+
+        sizeText = sizeTextObject;
+
+        visualText = visualTextObjct;
+
         //시작 하면서 레이아웃 함수를 호출
         CreateLayout();
 	}
@@ -107,6 +121,31 @@ public class Inventory : MonoBehaviour
         }
 	}
 
+    public void ShowToolTip(GameObject slot)
+    {
+        Slot tmpSlot = slot.GetComponent<Slot>();
+
+        if (!tmpSlot.IsEmpty && hoverObject == null)
+        {
+            visualText.text = tmpSlot.CurrentItem.GetTooltip();
+            sizeText.text = visualText.text;
+
+            toolTip.SetActive(true);
+
+            float xPos = slot.transform.position.x + slotPadingLeft;
+            float yPos = slot.transform.position.y - slot.GetComponent<RectTransform>().sizeDelta.y - slotPadingTop;
+
+            toolTip.transform.position = new Vector2(xPos, yPos);
+        }
+
+        
+    }
+
+
+    public void HideToolTip()
+    {
+        toolTip.SetActive(false);
+    }
 
     //인벤토리 레이아웃 함수
     private void CreateLayout()
