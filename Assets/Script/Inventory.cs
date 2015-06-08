@@ -76,6 +76,8 @@ public class Inventory : MonoBehaviour
 
         visualText = visualTextObjct;
 
+        canvasgroup = transform.parent.GetComponent<CanvasGroup>();
+
         //시작 하면서 레이아웃 함수를 호출
         CreateLayout();
 	}

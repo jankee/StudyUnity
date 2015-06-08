@@ -102,10 +102,9 @@ public class Item : MonoBehaviour
             stats += "\n+" + stamina.ToString() + " Stamina";
         }
 
-        return string.Format("<color=" + color + "><size=16> {0} </size></color>", itemName);
+        return string.Format("<color=" + color + 
+            "><size=16> {0} </size></color> <size=14><i><color=lime>"
+             + newLine + "{1}</color></i>{2}</size>", itemName, description, stats);
         
-        
-        //<size = 14><i><color = lime>"
-        //    + newLine + "{1}</color></i>{2}</size>", itemName, description, stats);
     }
 }
