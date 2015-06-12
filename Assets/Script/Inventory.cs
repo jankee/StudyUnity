@@ -191,7 +191,7 @@ public class Inventory : MonoBehaviour
                 newSlot.name = "Slot";
 
                 //newSlot의 부모를 현재 Inventory로 셋팅한다.
-                newSlot.transform.SetParent(this.transform.parent);
+                newSlot.transform.SetParent(this.transform.parent.FindChild("SlotList"));
 
                 //slotRect의 로컬포지션을 아래 공식으로 생성한다.
                 slotRect.localPosition = inventoryRect.localPosition + new Vector3
