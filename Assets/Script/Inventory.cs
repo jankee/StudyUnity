@@ -52,6 +52,26 @@ public class Inventory : MonoBehaviour
 
     public float fadingTime;
 
+    // 칼 인벤토리 시작 --------------------------------------------------
+    public static GameObject clicked;
+
+    public GameObject selectStackSize;
+
+    private static GameObject selectStackSizeStatic;
+
+    public Text stackText;
+
+    private int splitAmount;
+
+    private int maxStackCount;
+
+    private static Slot movingSlot;
+
+    public GameObject mana;
+    public GameObject health;
+
+    //---------------------------------------------------------------------
+
     public static int EmptySlot
     {
         get { return emptySlot; }
@@ -67,6 +87,15 @@ public class Inventory : MonoBehaviour
     public Text visualTextObjct;
     private static Text visualText;
 
+    //---------------------------------------------------------------------------
+
+    public GameObject dropItem;
+
+    private static GameObject playerRef;
+
+    //---------------------------------------------------------------------------
+
+
 	// Use this for initialization
 	void Start () 
     {
@@ -75,6 +104,17 @@ public class Inventory : MonoBehaviour
         sizeText = sizeTextObject;
 
         visualText = visualTextObjct;
+
+        //------------------------------------
+
+        playerRef = GameObject.Find("Player");
+
+        selectStackSizeStatic = selectStackSize;
+
+        //movingSlot = GameObject.Find("MovingSlot").GetComponent<Slot>();
+
+        //-----------------------------------
+
 
         canvasgroup = transform.parent.GetComponent<CanvasGroup>();
 
@@ -90,11 +130,45 @@ public class Inventory : MonoBehaviour
             if (!eventSystem.IsPointerOverGameObject(-1) && from != null)
             {
                 from.GetComponent<Image>().color = Color.white;
+
+                foreach (Item item in from.Items)
+                {
+                    float angle = UnityEngine.Random.Range(0.0f, Mathf.PI * 2);
+
+                    Vector3 v = new Vector3(Mathf.Sin(angle), 0, Mathf.Cos(angle));
+
+                    v *= 30; 
+
+                    GameObject.Instantiate(dropItem, playerRef.transform.position - v, 
+                        Quaternion.identity);
+                }
+
                 from.ClearSlot();
                 Destroy(GameObject.Find("Hover"));
+
                 to = null;
                 from = null;
-                hoverObject = null;
+                //hoverObject = null;
+                emptySlot++;
+            }
+            else if (!eventSystem.IsPointerOverGameObject(-1) && !movingSlot.IsEmpty)
+            {
+                foreach (Item item in movingSlot.Items)
+                {
+                    float angle = UnityEngine.Random.Range(0.0f, Mathf.PI * 2);
+
+                    Vector3 v = new Vector3(Mathf.Sin(angle), 0, Mathf.Cos(angle));
+
+                    v *= 30;
+
+                    GameObject tmpDrp = (GameObject)GameObject.Instantiate(dropItem, playerRef.transform.position - v,
+                        Quaternion.identity);
+
+                    tmpDrp.GetComponent<Item>().SetStats(item);
+                }
+
+                movingSlot.ClearSlot();
+                Destroy(GameObject.Find("Hover"));
             }
         }
 
