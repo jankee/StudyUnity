@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public enum PlayerState
 {
@@ -25,10 +26,13 @@ public class Move : MonoBehaviour
 
     public PlayerState playerState;
 
+    List<GameObject> enemy;
+
 	// Use this for initialization
 	void Start () 
     {
         playerState = PlayerState.Idle;
+        enemy = new List<GameObject>();
 	}
 	
 	// Update is called once per frame
@@ -36,6 +40,7 @@ public class Move : MonoBehaviour
     {
         if (Input.GetMouseButton(0))
         {
+            //playerState = PlayerState.Move;
             Physics.Raycast(Camera.main.ScreenPointToRay(Input.mousePosition), out hit);
             clickPosition = hit.point;
 
@@ -49,9 +54,16 @@ public class Move : MonoBehaviour
             thisPosition = this.transform.position;
             thisPosition.y = 0;
 
-            StopCoroutine("MoveCharac");
-            StartCoroutine("MoveCharac");
+            if (thisPosition != clickPosition)
+            {
+                StopCoroutine("MoveCharac");
+                StartCoroutine("MoveCharac");
+            }
+        }
 
+        if (Input.GetKey(KeyCode.A))
+        {
+            FindEnemy();
         }
 	}
 
@@ -65,6 +77,7 @@ public class Move : MonoBehaviour
 
     public IEnumerator MoveCharac()
     {
+        playerState = PlayerState.Move;
 
         while (clickPosition != thisPosition)
         {
@@ -77,10 +90,27 @@ public class Move : MonoBehaviour
         }
 
         transform.position = clickPosition;
-
+        playerState = PlayerState.Idle;
         print(thisPosition.x);
 
     }
 
+    public void FindEnemy()
+    {
+        for (int i = 0; i < 2; i++)
+        {
+            GameObject tmp = GameObject.FindGameObjectWithTag("Enemy");
+            tmp.transform.SetParent(GameObject.Find("List"));
+            enemy.Add(tmp);
+        }
 
+        print(enemy);
+
+        //foreach (GameObject item in enemy)
+        //{
+            
+        //    print(item.name);    
+        //}
+        
+    }
 }
