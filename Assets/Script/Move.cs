@@ -28,11 +28,18 @@ public class Move : MonoBehaviour
 
     List<GameObject> enemy;
 
+    GameObject[] tmp;
+
+    int[] array;
+    int position = -1;
+
 	// Use this for initialization
 	void Start () 
     {
         playerState = PlayerState.Idle;
         enemy = new List<GameObject>();
+        tmp = new GameObject[1];
+        array = new int[3];
 	}
 	
 	// Update is called once per frame
@@ -61,7 +68,7 @@ public class Move : MonoBehaviour
             }
         }
 
-        if (Input.GetKey(KeyCode.A))
+        if (Input.GetKeyDown(KeyCode.A))
         {
             FindEnemy();
         }
@@ -97,20 +104,48 @@ public class Move : MonoBehaviour
 
     public void FindEnemy()
     {
-        for (int i = 0; i < 2; i++)
-        {
-            GameObject tmp = GameObject.FindGameObjectWithTag("Enemy");
-            tmp.transform.SetParent(GameObject.Find("List"));
-            enemy.Add(tmp);
-        }
 
-        print(enemy);
+        //tmp = GameObject.FindGameObjectsWithTag("Enemy");
 
-        //foreach (GameObject item in enemy)
+        //List<Vector3> aPosition = new List<Vector3>(); 
+
+        //foreach (GameObject item in tmp)
         //{
+        //    aPosition.Add(item.transform.position);
+
             
-        //    print(item.name);    
+
         //}
+
+        //foreach (Vector3 item in aPosition)
+        //{
+        //    Vector3 a;
+        //    Vector3 b;
+
+        //    a = item - this.transform.position;
+
+        //}
+
+        //print("HI");
+
         
+        
+
+
+    }
+
+    public int this[int index]
+    {
+        get
+        {
+            return array[index];
+        }
+        set
+        {
+            if (index >= array.Length)
+            {
+                
+            }
+        }
     }
 }
