@@ -28,7 +28,8 @@ public class Move : MonoBehaviour
 
     List<GameObject> enemy;
 
-    GameObject[] tmp;
+    List<EnemyCollector> enemyCollector;
+    Vector3[] enemyPosition;
 
     int[] array;
     int position = -1;
@@ -38,7 +39,7 @@ public class Move : MonoBehaviour
     {
         playerState = PlayerState.Idle;
         enemy = new List<GameObject>();
-        tmp = new GameObject[1];
+        enemyCollector = new List<EnemyCollector>();
         array = new int[3];
 	}
 	
@@ -92,7 +93,7 @@ public class Move : MonoBehaviour
             thisPosition = transform.position;
             thisPosition = new Vector3((Mathf.Round(thisPosition.x * 100.0f)) / 100.0f, 0, (Mathf.Round(thisPosition.z * 100.0f)) / 100.0f );
 
-            print("speed " + thisPosition);
+            //print("speed " + thisPosition);
             yield return null;
         }
 
@@ -105,17 +106,28 @@ public class Move : MonoBehaviour
     public void FindEnemy()
     {
 
-        //tmp = GameObject.FindGameObjectsWithTag("Enemy");
+        //enemyCollector = GameObject.FindGameObjectsWithTag("Enemy");
 
-        //List<Vector3> aPosition = new List<Vector3>(); 
+        //enemyPosition = new Vector3[enemyCollector.Length];
 
-        //foreach (GameObject item in tmp)
-        //{
-        //    aPosition.Add(item.transform.position);
+        ////for (int i = 0; i < enemyCollector.Length; i++)
+        ////    {
+        //        foreach (GameObject ec in enemyCollector)
+        //        {
+        //            for (int i = 0; i < enemyCollector.Length; i++)
+        //            {
+        //                enemyPosition[i] = ec.transform.position;
+        //                print(ec.name);
+        //                print(enemyPosition[i]);    
+        //            }
+                    
+        //        }
 
-            
+        //        print("{0} {1}" + enemyCollector[0].name + enemyPosition[0]);
+        //    //}
+        
+        enemyCollector.Add(GameObject GameObject.FindGameObjectsWithTag("Enemy"), )
 
-        //}
 
         //foreach (Vector3 item in aPosition)
         //{
@@ -146,6 +158,29 @@ public class Move : MonoBehaviour
             {
                 
             }
+        }
+    }
+
+    public class EnemyCollector : MonoBehaviour 
+    {
+        private GameObject enemy;
+
+        public GameObject Enemy
+        {
+            get { return enemy; }
+        }
+
+        private Vector3 enemyPosition;
+
+        public Vector3 EnemyPosition
+        {
+            get { return enemyPosition; }
+        }
+
+        public EnemyCollector(GameObject enemy, Vector3 enemyPosition)
+        {
+            this.enemy = enemy;
+            this.enemyPosition = enemyPosition;
         }
     }
 }
