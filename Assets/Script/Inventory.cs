@@ -120,6 +120,8 @@ public class Inventory : MonoBehaviour
 
         //시작 하면서 레이아웃 함수를 호출
         CreateLayout();
+
+        movingSlot = GameObject.Find("MovingSlot").GetComponent<Slot>();
 	}
 	
 	// Update is called once per frame
@@ -169,6 +171,34 @@ public class Inventory : MonoBehaviour
 
                 movingSlot.ClearSlot();
                 Destroy(GameObject.Find("Hover"));
+            }
+
+            else if (from == null && canvasgroup.alpha == 1 && !Input.GetKey(KeyCode.LeftShift))
+            {
+                if (!clicked.GetComponent<Slot>().IsEmpty && !GameObject.Find("Hover"))
+                {
+                    from = clicked.GetComponent<Slot>();
+                    from.GetComponent<Image>().color = Color.gray;
+
+                    //TODO:
+                }
+            }
+            else if (to == null && !Input.GetKey(KeyCode.LeftShift))
+            {
+                to = clicked.GetComponent<Slot>();
+                Destroy(GameObject.Find("Hover"));
+            }
+
+            if (to != null && from != null)
+            {
+                if (!to.IsEmpty && from.CurrentItem.type == to.CurrentItem.type && to.IsAvailable)
+                {
+                    //TODO: MergeStacks(from, to);
+                }
+                else
+                {
+                    Stack<Item> tmpTo = new Stack<Item>(to.Items);
+                }
             }
         }
 

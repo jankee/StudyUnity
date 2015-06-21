@@ -29,7 +29,7 @@ public class Move : MonoBehaviour
     List<GameObject> enemy;
 
     List<EnemyCollector> enemyCollector;
-    Vector3[] enemyPosition;
+    GameObject[] enemyCollect;
 
     int[] array;
     int position = -1;
@@ -125,8 +125,29 @@ public class Move : MonoBehaviour
 
         //        print("{0} {1}" + enemyCollector[0].name + enemyPosition[0]);
         //    //}
+
+        enemyCollect = GameObject.FindGameObjectsWithTag("Enemy");
+
+        GameObject test = new GameObject();
+        //Vector3[] vtest = new Vector3();
+
+        //foreach (GameObject item in enemyCollect)
+        //{
+        //    test = item;
+        //    //vtest[] = item.transform.position;
+
+        //    print(item.name + vtest);
+
+        //}
+
+        //for (int i = 0; i < enemyCollect.Length; i++)
+        //{
+        //    vtest[i] = enemyCollect[i].transform.position - this.transform.position;
+        //}
         
-        enemyCollector.Add(GameObject GameObject.FindGameObjectsWithTag("Enemy"), )
+        
+
+        
 
 
         //foreach (Vector3 item in aPosition)
