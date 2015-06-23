@@ -72,7 +72,8 @@ public class Move : MonoBehaviour
             }
             else if (closest != null)
             {
-
+                print("FindMove");
+                StopCoroutine("FindMove");
                 StartCoroutine("FindMove");
             }
         }
@@ -91,14 +92,22 @@ public class Move : MonoBehaviour
 
     public IEnumerator FindMove()
     {
-        GameObject findEnemy =  FindEnemy();
+        //GameObject findEnemy =  FindEnemy();
+        
 
-        Vector3 runDirection = findEnemy.transform.position - this.transform.position;
+        Vector3 runDirection = closest.transform.position - this.transform.position;
+
+        runDirection.x = Mathf.Round(runDirection.x * 100.0f) / 100.0f;
+        runDirection.z = Mathf.Round(runDirection.z * 100.0f) / 100.0f;
+        runDirection.y = 0.0f;
+
+        print(runDirection);
 
         while (runDirection != thisPosition)
         {
-            transform.Translate((runDirection - thisPosition).normalized * Time.deltaTime * moveSpeed);
+            transform.Translate((runDirection - thisPosition) * Time.deltaTime * moveSpeed);
             thisPosition = transform.position;
+            thisPosition = new Vector3((Mathf.Round(thisPosition.x * 100.0f)) / 100.0f, 0, (Mathf.Round(thisPosition.z * 100.0f)) / 100.0f);
 
             yield return null;
         }
@@ -120,8 +129,14 @@ public class Move : MonoBehaviour
 
         transform.position = clickPosition;
         playerState = PlayerState.Idle;
-        print(thisPosition.x);
+        print("MoveCharac");
 
+    }
+
+    public IEnumerator MoveCharacter()
+    {
+
+        yield return null;
     }
 
     public GameObject FindEnemy()
