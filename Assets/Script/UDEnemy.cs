@@ -35,4 +35,9 @@ public class UDEnemy : MonoBehaviour
 
     }
 
+    public void OnkeyEvent()
+    {
+        print("This is Object " + gameObject.name + ", and you pressed the E key"); 
+    }
+
 }

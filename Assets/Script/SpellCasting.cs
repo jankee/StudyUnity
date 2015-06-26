@@ -5,6 +5,10 @@ public class SpellCasting : MonoBehaviour {
 
     public UDEnemy[] enemies;
 
+    public delegate void pressKey();
+
+    public pressKey usePressKey;
+
 	// Use this for initialization
 	void Start () 
     {
@@ -22,6 +26,11 @@ public class SpellCasting : MonoBehaviour {
         if (Input.GetKey(KeyCode.Space))
         {
             StartCoroutine("enemiesAttack");
+        }
+
+        if (Input.GetKey(KeyCode.A))
+        {
+            usePressKey();
         }
 	}
 
@@ -41,6 +50,10 @@ public class SpellCasting : MonoBehaviour {
     {
         foreach (UDEnemy en in enemies)
         {
+            usePressKey += en.OnkeyEvent;
+
+            en.OnkeyEvent();
+
             StartCoroutine(en.Attack());
             yield return new WaitForSeconds(en.attackDuration);
         }
