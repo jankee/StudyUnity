@@ -1,8 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.UI;
 
 public class Player : MovingObject 
 {
+    public Text foodText;
     public int wallDamage = 1;
     public int pointPerFood = 10;
     public int pointPerSoda = 20;
