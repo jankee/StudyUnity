@@ -43,6 +43,8 @@ public abstract class MovingObject : MonoBehaviour
         return false;
     }
 	
+
+
     protected IEnumerator SmoothMovement(Vector3 end)
     {
         float sqrRemainingDistance = (transform.position - end).sqrMagnitude;
