@@ -54,9 +54,11 @@ public class GameManager : MonoBehaviour {
         levelText.text = "Level " + level;
         levelImage.SetActive(true);
         Invoke("HideLevelImage", levelStartDelay);
-
-        enemies.Clear();
         boardScript.SetupScene(level);
+
+        //enemies.Clear();
+
+        
     }
 
     void HideLevelImage()
