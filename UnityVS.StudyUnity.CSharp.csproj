@@ -73,6 +73,7 @@
     <Compile Include="Assets\Completed\Scripts\Player.cs" />
     <Compile Include="Assets\Completed\Scripts\SoundManager.cs" />
     <Compile Include="Assets\Completed\Scripts\Wall.cs" />
+    <Compile Include="Assets\Scripts\BoardManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Fonts\OFL.txt" />
