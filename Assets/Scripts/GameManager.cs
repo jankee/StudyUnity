@@ -43,6 +43,7 @@ public class GameManager : MonoBehaviour
 	// Update is called once per frame
 	public void GameOver() 
     {
+        print("GameOver");
         enabled = false;
 	}
 
@@ -52,6 +53,13 @@ public class GameManager : MonoBehaviour
 	    {
 		    return;
 	    }
+
+        StartCoroutine(MoveEnemies());
+    }
+
+    public void AddEnemyToList(Enemy script)
+    {
+        enemies.Add(script);
     }
 
     IEnumerator MoveEnemies()

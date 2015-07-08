@@ -12,6 +12,7 @@ public class Enemy : MoveObject
 	// Use this for initialization
 	protected override void Start () 
     {
+        GameManager.instance.AddEnemyToList(this);
         animator = GetComponent<Animator>();
         target = GameObject.FindGameObjectWithTag("Player").transform;
         base.Start();
@@ -23,17 +24,17 @@ public class Enemy : MoveObject
 	
 	}
 
-    protected override void AttempMove<T>(int xDir, int yDir)
-    {
-        if (skipMove)
-        {
-            skipMove = false;
-            return;
-        }
-        base.AttempMove<T>(xDir, yDir);
+    //protected override void AttempMove<T>(int xDir, int yDir)
+    //{
+    //    if (skipMove)
+    //    {
+    //        skipMove = false;
+    //        return;
+    //    }
+    //    base.AttempMove(xDir, yDir);
 
-        skipMove = true;
-    }
+    //    skipMove = true;
+    //}
 
     public void MoveEnemy()
     {
@@ -49,15 +50,16 @@ public class Enemy : MoveObject
             xDir = target.position.x > transform.position.x ? 1 : -1;
         }
 
-        AttempMove<Player>(xDir, yDir);
+        //AttempMove<Player>(xDir, yDir);
+        AttempMove(xDir, yDir);
     }
 
-    protected override void OnCantMove<T>(T component)
-     {
-        Player hitPlayer = component as Player;
+    //protected override void OnCantMove<T>(T component)
+    // {
+    //    Player hitPlayer = component as Player;
 
-        animator.SetTrigger("enemyAttack");
+    //    animator.SetTrigger("enemyAttack");
 
-        hitPlayer.LoseFood(playerDamage);
-    }
+    //    hitPlayer.LoseFood(playerDamage);
+    //}
 }

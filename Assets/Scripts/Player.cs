@@ -49,20 +49,30 @@ public class Player : MoveObject
 
         if (horizontal != 0 || vertical != 0)
         {
-            AttempMove<Wall>(horizontal, vertical);
+            AttempMove(horizontal, vertical);
         }
 	}
 
-    protected override void AttempMove<T>(int xDir, int yDir)
+    protected override void AttempMove(int xDir, int yDir)
     {
         food--;
-        base.AttempMove<T>(xDir, yDir);
+        print(food);
 
-        RaycastHit2D hit;
+        base.AttempMove(xDir, yDir);
         CheckIfGameOver();
         GameManager.instance.playersTurn = false;
-        print("Player : " + GameManager.instance.playersTurn);
     }
+
+    //protected override void AttempMove<T>(int xDir, int yDir)
+    //{
+    //    food--;
+    //    base.AttempMove<T>(xDir, yDir);
+
+    //    RaycastHit2D hit;
+    //    CheckIfGameOver();
+    //    GameManager.instance.playersTurn = false;
+    //    print("Player : " + GameManager.instance.playersTurn);
+    //}
 
     public void OnTriggerEnter2D(Collider2D collision)
     {
@@ -83,12 +93,12 @@ public class Player : MoveObject
         }
     }
 
-    protected override void OnCantMove<T>(T component)
-    {
-        Wall hitWall = component as Wall;
-        hitWall.DamageWall(wallDamage);
-        animator.SetTrigger("PlayerChop");
-    }
+    //protected override void OnCantMove<T>(T component)
+    //{
+    //    Wall hitWall = component as Wall;
+    //    hitWall.DamageWall(wallDamage);
+    //    animator.SetTrigger("PlayerChop");
+    //}
 
     private void Restart()
     {
