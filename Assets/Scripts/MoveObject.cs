@@ -16,6 +16,7 @@ public abstract class MoveObject : MonoBehaviour
         boxCollider = GetComponent<BoxCollider2D>();
         rb2D = GetComponent<Rigidbody2D>();
         inverseMoveTime = 1f / moveTime;
+        print("Base.Start()");
         //테스트
         //RaycastHit2D hit;
         //Move(4, 4, out hit);
@@ -56,9 +57,12 @@ public abstract class MoveObject : MonoBehaviour
     protected virtual void AttempMove<T>(int xDir, int yDir)
         where T : Component
     {
+        print("MoveObject AttempMove");
+
         RaycastHit2D hit;
         bool canMove = Move(xDir, yDir, out hit);
-
+        
+        print(canMove);
         if (hit.transform == null)
         {
             return;

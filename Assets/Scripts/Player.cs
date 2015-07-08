@@ -36,7 +36,11 @@ public class Player : MoveObject
         int vertical = 0;
 
         horizontal = (int)Input.GetAxisRaw("Horizontal");
-        vertical = (int)Input.GetAxisRaw("vertical");
+        vertical = (int)Input.GetAxisRaw("Vertical");
+
+        
+        //print("hirizontal : " + horizontal);
+        //print("vertical : " + vertical);
 
         if (horizontal != 0)
         {
@@ -57,6 +61,7 @@ public class Player : MoveObject
         RaycastHit2D hit;
         CheckIfGameOver();
         GameManager.instance.playersTurn = false;
+        print("Player : " + GameManager.instance.playersTurn);
     }
 
     public void OnTriggerEnter2D(Collider2D collision)
