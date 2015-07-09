@@ -59,6 +59,9 @@ public class Player : MoveObject
         print(food);
 
         base.AttempMove(xDir, yDir);
+
+        RaycastHit2D hit;
+        //print(hit);
         CheckIfGameOver();
         GameManager.instance.playersTurn = false;
     }

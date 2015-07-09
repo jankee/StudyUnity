@@ -26,13 +26,14 @@ public abstract class MoveObject : MonoBehaviour
     {
         Vector2 start = transform.position;
         Vector2 end = start + new Vector2(xDir, yDir);
-
+        //collider를 끄지 않으면 Linecast를 사용할 수 없다
         boxCollider.enabled = false;
-        //벽을 찾는 hit
+        //blockingLayer을 찾아 hit에 넣어 준다
         hit = Physics2D.Linecast(start, end, blockingLayer);
+        //collider를 다시 활성화 해준다.
         boxCollider.enabled = true;
 
-        if (hit.transform == null)
+        if (hit.collider == null)
         {
             StartCoroutine(SmoothMovement(end));
             return true;
@@ -58,6 +59,13 @@ public abstract class MoveObject : MonoBehaviour
     {
         RaycastHit2D hit;
         bool canMove = Move(xDir, yDir, out hit);
+
+        Debug.Log(canMove);
+
+        if (hit.transform == null)
+        {
+            return;
+        }
     }
 
     //protected virtual void AttempMove<T>(int xDir, int yDir)
