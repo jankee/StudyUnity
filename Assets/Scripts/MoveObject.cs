@@ -60,13 +60,27 @@ public abstract class MoveObject : MonoBehaviour
         RaycastHit2D hit;
         bool canMove = Move(xDir, yDir, out hit);
 
-        Debug.Log(canMove);
-
         if (hit.transform == null)
         {
             return;
         }
+
+        //print(hit.transform.GetComponent<Wall>());
+
+        //Wall hitComponent = hit.transform.GetComponent<Wall>();
+
+        //if (!canMove && hitComponent != null)
+        //{
+        //    OnCanMove(hitComponent);
+        //}
     }
+
+    //protected void OnCanMove(Wall component)
+    //{
+    //    Wall hitWall = component as Wall;
+
+        
+    //}
 
     //protected virtual void AttempMove<T>(int xDir, int yDir)
     //    where T : Component

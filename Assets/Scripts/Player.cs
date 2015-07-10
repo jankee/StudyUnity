@@ -11,6 +11,8 @@ public class Player : MoveObject
     private Animator animator;
     private int food;
 
+    private Wall hitComponent;
+
 	// Use this for initialization
 	protected override void Start () 
     {
@@ -57,10 +59,13 @@ public class Player : MoveObject
     {
         food--;
         print(food);
+        RaycastHit2D hit;
 
         base.AttempMove(xDir, yDir);
 
-        RaycastHit2D hit;
+        //hitComponent = hit.transform.GetComponent<Wall>();
+
+        print(hit.transform.GetComponent<Wall>());
         //print(hit);
         CheckIfGameOver();
         GameManager.instance.playersTurn = false;
@@ -94,6 +99,19 @@ public class Player : MoveObject
             food += pointPerSoda;
             collision.gameObject.SetActive(false);
         }
+        //else if ( hitComponent != null)
+        //{
+        //    OnCanMove(hitComponent);
+        //}
+    }
+
+    protected void OnCanMove(Wall component)
+    {
+        Wall hitWall = component as Wall;
+
+        hitWall.DamageWall(wallDamage);
+        animator.SetTrigger("PlayerChop");
+        //throw new System.NotImplementedException();
     }
 
     //protected override void OnCantMove<T>(T component)
