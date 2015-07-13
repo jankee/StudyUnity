@@ -55,7 +55,8 @@ public abstract class MoveObject : MonoBehaviour
         }
 	}
 
-    protected virtual void AttempMove(int xDir, int yDir)
+    protected virtual void AttempMove<T>(int xDir, int yDir)
+        where T : Component
     {
         RaycastHit2D hit;
         bool canMove = Move(xDir, yDir, out hit);
@@ -65,45 +66,14 @@ public abstract class MoveObject : MonoBehaviour
             return;
         }
 
-        //print(hit.transform.GetComponent<Wall>());
+        T hitComponent = hit.transform.GetComponent<T>();
 
-        //Wall hitComponent = hit.transform.GetComponent<Wall>();
-
-        //if (!canMove && hitComponent != null)
-        //{
-        //    OnCanMove(hitComponent);
-        //}
+        if (!canMove && hitComponent != null)
+        {
+            OnCantMove(hitComponent);
+        }
     }
 
-    //protected void OnCanMove(Wall component)
-    //{
-    //    Wall hitWall = component as Wall;
-
-        
-    //}
-
-    //protected virtual void AttempMove<T>(int xDir, int yDir)
-    //    where T : Component
-    //{
-    //    print("MoveObject AttempMove");
-
-    //    RaycastHit2D hit;
-    //    bool canMove = Move(xDir, yDir, out hit);
-        
-    //    print(canMove);
-    //    if (hit.transform == null)
-    //    {
-    //        return;
-    //    }
-
-    //    T hitComponent = hit.transform.GetComponent<T>();
-
-    //    if (!canMove && hitComponent != null)
-    //    {
-    //        OnCantMove(hitComponent);
-    //    }
-    //}
-
-    //protected abstract void OnCantMove<T>(T component)
-    //    where T : Component;
+    protected abstract void OnCantMove<T>(T component)
+        where T : Component;
 }

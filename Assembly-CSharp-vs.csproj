@@ -61,6 +61,7 @@
      <Compile Include="Assets\Scripts\MoveObject.cs" />
      <Compile Include="Assets\Scripts\Player.cs" />
      <Compile Include="Assets\Scripts\Test.cs" />
+     <Compile Include="Assets\Scripts\TestConstrain.cs" />
      <Compile Include="Assets\Scripts\Wall.cs" />
      <None Include="Assets\Fonts\OFL.txt" />
  <Reference Include="UnityEngine.UI">

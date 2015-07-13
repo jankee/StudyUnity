@@ -51,36 +51,28 @@ public class Player : MoveObject
 
         if (horizontal != 0 || vertical != 0)
         {
-            AttempMove(horizontal, vertical);
+            AttempMove<Wall>(horizontal, vertical);
+        }
+
+        if (Input.GetKeyUp(KeyCode.Space))
+        {
+            print("Space");
+            animator.SetTrigger("PlayerChop");
         }
 	}
 
-    protected override void AttempMove(int xDir, int yDir)
+    protected override void AttempMove<T>(int xDir, int yDir)
     {
         food--;
-        print(food);
+        
         RaycastHit2D hit;
 
-        base.AttempMove(xDir, yDir);
+        base.AttempMove<T>(xDir, yDir);
 
-        //hitComponent = hit.transform.GetComponent<Wall>();
-
-        print(hit.transform.GetComponent<Wall>());
-        //print(hit);
         CheckIfGameOver();
         GameManager.instance.playersTurn = false;
     }
 
-    //protected override void AttempMove<T>(int xDir, int yDir)
-    //{
-    //    food--;
-    //    base.AttempMove<T>(xDir, yDir);
-
-    //    RaycastHit2D hit;
-    //    CheckIfGameOver();
-    //    GameManager.instance.playersTurn = false;
-    //    print("Player : " + GameManager.instance.playersTurn);
-    //}
 
     public void OnTriggerEnter2D(Collider2D collision)
     {
@@ -99,27 +91,16 @@ public class Player : MoveObject
             food += pointPerSoda;
             collision.gameObject.SetActive(false);
         }
-        //else if ( hitComponent != null)
-        //{
-        //    OnCanMove(hitComponent);
-        //}
     }
 
-    protected void OnCanMove(Wall component)
+    protected override void OnCantMove<T>(T component)
     {
+        //스크립트가 Wall스크립트면 HitWall에 저장
         Wall hitWall = component as Wall;
-
         hitWall.DamageWall(wallDamage);
+        //플레이어 애니를 실행
         animator.SetTrigger("PlayerChop");
-        //throw new System.NotImplementedException();
     }
-
-    //protected override void OnCantMove<T>(T component)
-    //{
-    //    Wall hitWall = component as Wall;
-    //    hitWall.DamageWall(wallDamage);
-    //    animator.SetTrigger("PlayerChop");
-    //}
 
     private void Restart()
     {

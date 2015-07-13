@@ -24,17 +24,17 @@ public class Enemy : MoveObject
 	
 	}
 
-    //protected override void AttempMove<T>(int xDir, int yDir)
-    //{
-    //    if (skipMove)
-    //    {
-    //        skipMove = false;
-    //        return;
-    //    }
-    //    base.AttempMove(xDir, yDir);
+    protected override void AttempMove<T>(int xDir, int yDir)
+    {
+        if (skipMove)
+        {
+            skipMove = false;
+            return;
+        }
+        base.AttempMove<T>(xDir, yDir);
 
-    //    skipMove = true;
-    //}
+        skipMove = true;
+    }
 
     public void MoveEnemy()
     {
@@ -49,17 +49,17 @@ public class Enemy : MoveObject
         {
             xDir = target.position.x > transform.position.x ? 1 : -1;
         }
-
-        //AttempMove<Player>(xDir, yDir);
-        AttempMove(xDir, yDir);
+        //플레이어 AttempMove에 xDir, yDir을 넣어 준다.
+        AttempMove<Player>(xDir, yDir);
     }
 
-    //protected override void OnCantMove<T>(T component)
-    // {
-    //    Player hitPlayer = component as Player;
+    protected override void OnCantMove<T>(T component)
+    {
+        //component로 플레이어를 찾는다.
+        Player hitPlayer = component as Player;
 
-    //    animator.SetTrigger("enemyAttack");
+        animator.SetTrigger("EnemyAttack");
 
-    //    hitPlayer.LoseFood(playerDamage);
-    //}
+        hitPlayer.LoseFood(playerDamage);
+    }
 }
