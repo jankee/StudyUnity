@@ -9,6 +9,9 @@ public class Enemy : MoveObject
     private Transform target;
     private bool skipMove;
 
+    public AudioClip enemyAttack1;
+    public AudioClip enemyAttack2;
+
 	// Use this for initialization
 	protected override void Start () 
     {
@@ -61,5 +64,7 @@ public class Enemy : MoveObject
         animator.SetTrigger("EnemyAttack");
 
         hitPlayer.LoseFood(playerDamage);
+
+        SoundManager.instance.RandomizeSfx(enemyAttack1, enemyAttack2);
     }
 }

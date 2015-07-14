@@ -9,6 +9,8 @@ public class Loader : MonoBehaviour
 	// Use this for initialization
 	void Awake () 
     {
+
+        Screen.SetResolution(800, 480, true);
         //GameManager의 static instance를 바로 불러올수 있다.
 
         if (GameManager.instance == null)
